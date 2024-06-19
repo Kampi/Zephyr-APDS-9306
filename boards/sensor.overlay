@@ -1,0 +1,21 @@
+/ {
+	aliases {
+		rtc = &rv_8263_c8;
+		sensor = &apds9306;
+	};
+};
+
+&i2c0 {
+	rv_8263_c8: rv-8263-c8@51 {
+		compatible = "microcrystal,rv-8263-c8";
+		reg = <0x51>;
+		status = "okay";
+		clkout = <8192>;
+	};
+
+	apds9306: apds9306@52 {
+        compatible = "avago,apds9306";
+        reg = <0x52>;
+        status = "okay";
+    };
+};
