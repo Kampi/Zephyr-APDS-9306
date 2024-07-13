@@ -1,0 +1,42 @@
+/ {
+	aliases {
+		sensor = &apds_9306;
+	};
+};
+
+&pinctrl {
+	i2c1_default: i2c1_default {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SDA, 0, 10)>,
+				<NRF_PSEL(TWIM_SCL, 0, 7)>;
+		};
+	};
+
+	i2c1_sleep: i2c1_sleep {
+		group1 {
+			psels = <NRF_PSEL(TWIM_SDA, 0, 10)>,
+				<NRF_PSEL(TWIM_SCL, 0, 7)>;
+			low-power-enable;
+		};
+	};
+};
+
+&i2c1 {
+    compatible = "nordic,nrf-twim";
+    status = "okay";
+    clock-frequency = <I2C_BITRATE_FAST>;
+    zephyr,concat-buf-size = <512>;
+
+    pinctrl-0 = <&i2c1_default>;
+    pinctrl-1 = <&i2c1_sleep>;
+    pinctrl-names = "default", "sleep";
+
+    apds_9306: apds9306@52 {
+        compatible = "avago,apds9306";
+        reg = <0x52>;
+        status = "okay";
+        gain = <18>;
+        resolution = <13>;
+        frequency = <2000>;
+    };
+};
